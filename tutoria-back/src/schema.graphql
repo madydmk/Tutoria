@@ -1,0 +1,35 @@
+schema {
+    tutoria: Tutoria
+}
+type Company {
+  id: Int!
+  name: String!
+  industry: String!
+  location: String!
+}
+
+type Student {
+  id: Int!
+  name: String!
+  major: String!
+  graduationYear: Int!
+}
+
+type CFA {
+  id: Int!
+  name: String!
+  location: String!
+}
+
+type School {
+  id: Int!
+  name: String!
+  location: String!
+}
+
+type Query {
+  companies: [Company!]!
+  students: [Student!]!
+  cfas: [CFA!]!
+  schools: [School!]!
+}
