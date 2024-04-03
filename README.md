@@ -15,7 +15,7 @@ Tutoria est une plateforme révolutionnaire conçue pour connecter les professeu
 
 Avec 100 millions d'utilisateurs à l'esprit, Tutoria est construite sur une architecture microservices hautement scalable, en utilisant les technologies suivantes :
 
-- **Frontend :** Vue.js pour une expérience utilisateur riche et réactive.
-- **Backend :** Scala et Play Framework pour un backend performant et efficace, capable de gérer un grand nombre de requêtes simultanées.
-- **Base de Données :** Cassandra pour une gestion des données distribuée, capable de supporter un volume élevé d'opérations d'écriture et de lecture.
-- **Infrastructure Cloud :** Kubernetes pour orchestrer nos conteneurs Docker, assurant une haute disponibilité et une montée en charge dynamique.
+- **Frontend :** React pour une expérience utilisateur riche et réactive.
+- **Backend :** Cython le cython est une librairie qui vient transformer le code python en C ce qui permet d'avoir la facilté d'utilisation du python et la vitesse du C 
+- **Base de Données :** GraphQL pour une gestion des requètes données, capable de supporter un volume élevé d'opérations d'écriture et de lecture.
+- **Infrastructure Cloud :** AWS pour la qualité du services et la pluralité des services disponibles
