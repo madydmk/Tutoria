@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./tutoria-back/src/database"
+    ]
+}

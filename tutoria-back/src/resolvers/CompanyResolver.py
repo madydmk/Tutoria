@@ -1,6 +1,6 @@
 from graphene import ObjectType, String, Int, List
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from models.CompanyModel import Company as CompanyModel
+from models.models import Company as CompanyModel
 
 class Company(SQLAlchemyObjectType):
     class Meta:
