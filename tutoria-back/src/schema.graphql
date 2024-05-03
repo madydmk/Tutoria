@@ -1,35 +1,64 @@
 schema {
     tutoria: Tutoria
 }
-type Company {
-  id: Int!
-  name: String!
-  industry: String!
-  location: String!
-}
 
-type Student {
-  id: Int!
-  name: String!
-  major: String!
-  graduationYear: Int!
-}
-
-type CFA {
-  id: Int!
-  name: String!
-  location: String!
-}
-
-type School {
-  id: Int!
-  name: String!
-  location: String!
+type Mutation {
+  updateStudent(id: ID!, first_name: String, last_name: String): Students
+  createStudent(student : Students): Students
 }
 
 type Query {
   companies: [Company!]!
   students: [Student!]!
-  cfas: [CFA!]!
-  schools: [School!]!
+  certification: [Certification!]!
+  course: [Course!]!
+  documents: [Documents!]!
+  get_students_by_company(companyId: Int!): [Students]
+}
+
+type Company {
+  id: Int!
+  name: String!
+  industry: String!
+  adress: String!
+  cp: String!
+  tel: String!
+  type: String!
+}
+
+type Students {
+  id: Int!
+  first_name: String!
+  last_name: String!
+  adress: String!
+  cp: String!
+  mail: String!
+  tel: String!
+  schoolId: Int!
+  cfaId: Int!
+  enterpriseId: Int!
+}
+
+type Course {
+  id: Int!
+  title: String!
+  descr: String!
+  course: String!
+  annexe: String!
+  idCompany = Column(Integer, ForeignKey('company.id'), nullable=False)
+}
+
+type Certification {
+  id: Int!
+  name: String!
+  score: Int!
+  idCompany: Int!
+}
+
+type Certification {
+  id: Int!
+  name: String!
+  path: String!
+  idCompany: String!
+  idStudent: String!
 }

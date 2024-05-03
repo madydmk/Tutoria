@@ -16,9 +16,9 @@ class Company(Base):
     __tablename__ = "company"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
-    adress = Column(String(100), nullable=False)
-    cp = Column(String(5), nullable=False)
-    tel = Column(String(10), nullable=False)
+    adress = Column(String(100), nullable=True)
+    cp = Column(String(5), nullable=True)
+    tel = Column(String(10), nullable=True)
     type = Column(Integer, nullable=False) #1: Ecole, 2: CFA, 3: Entreprise
     # Students = relationship('students', back_populates='company')
 
@@ -26,10 +26,10 @@ class Company(Base):
 class Students(Base):
     __tablename__ = "students"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    first_name = Column(String(100), nullable=False)
-    last_name = Column(String(100), nullable=False)
-    adress = Column(String(100), nullable=False)
-    cp = Column(String(5), nullable=False)
+    first_name = Column(String(100), nullable=True)
+    last_name = Column(String(100), nullable=True)
+    adress = Column(String(100), nullable=True)
+    cp = Column(String(5), nullable=True)
     mail = Column(String(100), nullable=False)
     tel = Column(String(10), nullable=True)
     schoolId = Column(Integer, ForeignKey('company.id'), nullable=True)
@@ -40,9 +40,9 @@ class Course(Base):
     __tablename__ = "course"
     id = Column(Integer, primary_key=True, autoincrement=True)
     intitle = Column(String(100), nullable=False)
-    descr = Column(String(100), nullable=False)
-    course = Column(String(10000), nullable=False)
-    annexe = Column(String(100), nullable=False)
+    descr = Column(String(100), nullable=True)
+    course = Column(String(10000), nullable=True)
+    annexe = Column(String(100), nullable=True) #idDoc?
     idCompany = Column(Integer, ForeignKey('company.id'), nullable=False)
     # studentsCourses = relationship('students', back_populates='course') # Relation Formation - Company: 
 
@@ -53,7 +53,7 @@ class Certifications(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
     score= Column(Float)
-    idCompany = Column(Integer, ForeignKey('company.id'), nullable=False)
+    idCompany = Column(Integer, ForeignKey('company.id'), nullable=False) #enlever
     # certifiedStudent= relationship('students', back_populates='certifications')
 
 class Documents (Base):
@@ -61,6 +61,6 @@ class Documents (Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
     path = Column(String(100), nullable=False)
-    idCompany = Column(Integer, ForeignKey('company.id'), nullable=False)
-    idStudent = Column(Integer, ForeignKey('students.id'), nullable=False)
+    idCompany = Column(Integer, ForeignKey('company.id'), nullable=True)
+    idStudent = Column(Integer, ForeignKey('students.id'), nullable=True)
 
