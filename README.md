@@ -19,3 +19,15 @@ Avec 100 millions d'utilisateurs à l'esprit, Tutoria est construite sur une arc
 - **Backend :** Cython le cython est une librairie qui vient transformer le code python en C ce qui permet d'avoir la facilté d'utilisation du python et la vitesse du C 
 - **Base de Données :** GraphQL pour une gestion des requètes données, capable de supporter un volume élevé d'opérations d'écriture et de lecture.
 - **Infrastructure Cloud :** AWS pour la qualité du services et la pluralité des services disponibles
+
+## **Routes**
+Type de retour: JSON
+- **/** : Index, ne fait actuellement rien
+- **/student/<id>** - methods=["GET"] : Renvoie l'étudiant dont l'id est <id>
+- **/students** - methods=["GET"] : Renvoie la liste de tous les étudiants
+- **/company/<id>** - methods=["GET"] : Renvoie la company (CFA, Ecole ou Entreprise) dont l'id est <id>
+- **/company/<id>/students** - methods=["GET"] : Renvoie Tous les étudiants de l'établissement dont l'id est <id>
+- **/new_company** - methods=["POST"] : Insertion d'une nouvelle Company
+- **/new_student** - methods=["POST"] : Insertion d'un nouvel étudiant
+- **/add_file** - methods=["POST"]    : Ajout d'un fichier dans le dossier **file**. La Request soit contenir un objet json pouvant être sérialisé en **Document**
+
