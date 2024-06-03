@@ -3,7 +3,7 @@ import json
 import os
 from flask_cors import CORS
 import models.models as models
-from resolvers import schema
+from resolvers import schema, documentsResolver
 from flask_graphql import GraphQLView
 from queries import studentsQuery, companiesQuery
 
@@ -11,6 +11,7 @@ app = Flask(__name__)
 # Définir le port à utiliser pour le serveur Flask
 port = os.environ.get('FLASK_RUN_PORT', 5000)
 #app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
+
 
 CORS(app)
 
@@ -60,4 +61,12 @@ def add_student():
     new_student = request.form['new_student']
     schema.CreateStudent(new_student)
 
+@app.route("/add_file", methods=["POST"])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+    file = request.files['file']
+
+    result = documentsResolver.add_new_document(file, companyId=request.form['idCompany'], studentId=request.form['idStudent'])
+    return result
 app.run(port=port)

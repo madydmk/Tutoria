@@ -1,6 +1,6 @@
 from flask import jsonify
 from models.models import Company
-import database.database as db
+import models.database as db
 
 def get_company_by_id(company_id):
     company = Company.query.get(company_id)

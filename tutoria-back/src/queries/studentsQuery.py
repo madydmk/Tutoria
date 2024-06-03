@@ -1,6 +1,6 @@
 from flask import jsonify
 from models.models import Students
-import database.database as db
+import models.database as db
 
 def get_student_by_id(student_id):
     student = Students.query.get(student_id)

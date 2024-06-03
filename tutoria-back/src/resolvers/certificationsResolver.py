@@ -1,5 +1,5 @@
 from models.models import Certifications
-import database.database as db
+import models.database as db
 
 def get_certifications():
     Certifications.query.all()
