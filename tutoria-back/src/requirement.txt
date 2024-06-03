@@ -1,0 +1,12 @@
+Flask==3.0.3  
+Flask-Cors==4.0.0  
+Flask-GraphQL==2.0.1  
+Flask-Uploads==0.2.1  
+graphene==2.1.9  
+graphene-sqlalchemy==2.3.0
+graphql-core==2.3.2
+graphql-relay==2.0.1
+graphql-server-core==1.2.0
+mysqlclient==2.2.4
+pip==24.0
+SQLAlchemy
