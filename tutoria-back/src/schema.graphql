@@ -5,6 +5,7 @@ schema {
 type Mutation {
   updateStudent(id: ID, first_name: String, last_name: String): Students
   createStudent(student : Students): Students
+  createCompany(company : Company): Company
 }
 
 type Query {

@@ -79,7 +79,6 @@ class Mutation(ObjectType):
 class Query(ObjectType):
     get_all_students = graphene.List(StudentObject)
     get_all_companies = graphene.List(CompanyObject)
-
         #Students
     def resolve_get_all_students(self):
         return studentsQuery.get_all_students()

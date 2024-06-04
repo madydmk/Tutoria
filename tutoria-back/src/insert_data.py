@@ -1,7 +1,7 @@
 import models.database as db
 from models.models import Documents, Students, Base
 
-# Base.metadata.create_all(db.engine)
+Base.metadata.create_all(db.engine)
 
 stud1 = Students(firstName = "Stud", lastName = "One", address = "55 av de test", cp = "75000", mail = "test@test.com")
 
