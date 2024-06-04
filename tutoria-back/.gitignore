@@ -4,3 +4,8 @@
 # ignore ALL files in ANY directory named temp
 env/
 *.cpython-312.pyc
+
+tutoria-back/src/.env
+/tutoria-back/src/.env
+
+.env
