@@ -1,8 +1,8 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from graphene import ObjectType, Mutation
-from queries.studentsQuery import *
-from models.models import Students as StudentModel
+from queries.studentsQuery import resolve_create_student, update_student
+from models.models import Students as StudentModel, db_session
 
 class Students(SQLAlchemyObjectType):
     class Meta:
@@ -20,10 +20,12 @@ class CreateStudent(graphene.Mutation):
         schoolId = graphene.Int()
         cfaId = graphene.Int()
         enterpriseId = graphene.Int()
-    student = graphene.Field(StudentModel)
+    student = graphene.Field(lambda: Students)
 
-    def mutate(self, info, new_student):
-        student = resolve_create_student(None, info, new_student)
+    def mutate(self, info, **kwargs):
+        student = StudentModel(**kwargs)
+        db_session.add(student)
+        db_session.commit()
         return CreateStudent(student=student)
     
 class UpdateStudent(Mutation):
@@ -38,22 +40,22 @@ class UpdateStudent(Mutation):
         schoolId = graphene.Int()
         cfaId = graphene.Int()
         enterpriseId = graphene.Int()
-    student = graphene.Field(StudentModel)
+    student = graphene.Field(lambda: Students)
 
-    def mutate(self, info, **kwargs):
-        student = update_student(None, info, **kwargs)
+    def mutate(self, info, id, **kwargs):
+        student = StudentModel.query.get(id)
         if student:
+            for key, value in kwargs.items():
+                setattr(student, key, value)
+            db_session.commit()
             return UpdateStudent(student=student)
-        else:
-            return None
+        return None
 
 class Mutation(ObjectType):
     update_student = UpdateStudent.Field()
     create_student = CreateStudent.Field()
-    #create_company, update_company, delete_company
-    # same for certifs, courses and docs
 
-class Query(graphene.ObjectType):
-    # requêtes
+class Query(ObjectType):
     pass
+
 schema = graphene.Schema(query=Query, mutation=Mutation)

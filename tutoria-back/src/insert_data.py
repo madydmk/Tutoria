@@ -1,4 +1,4 @@
-import database.database as db
+import models.database as db
 from models.models import Documents, Students, Base
 
 # Base.metadata.create_all(db.engine)
