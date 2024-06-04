@@ -1,7 +1,8 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from graphene import ObjectType, Mutation
-from models.models import Students as StudentModel, db_session
+from models.models import Students as StudentModel
+from models.models import Company as CompanyModel, db_session
 from queries import studentsQuery, companiesQuery
 import resolvers.documentsResolver as documentsResolver
 
@@ -9,9 +10,12 @@ class StudentObject(SQLAlchemyObjectType):
     class Meta:
         model = StudentModel
 
+class CompanyObject(SQLAlchemyObjectType):
+    class Meta:
+        model = CompanyModel
+
 class CreateStudent(graphene.Mutation):
     class Arguments:
-        id = graphene.Int(required=True)
         first_name = graphene.String()
         last_name = graphene.String()
         address = graphene.String()
@@ -52,13 +56,29 @@ class UpdateStudent(Mutation):
             return UpdateStudent(student=student)
         return None
 
+class CreateCompany(graphene.Mutation):
+    class Arguments:
+        name = graphene.String()
+        address = graphene.String()
+        cp = graphene.String()
+        tel = graphene.String()
+        type = graphene.Int()
+    company = graphene.Field(lambda: CompanyObject)
+
+    def mutate(self, info, **kwargs):
+        company = CompanyModel(**kwargs)
+        db_session.add(company)
+        db_session.commit()
+        return CreateCompany(company=company)
+    
 class Mutation(ObjectType):
     update_student = UpdateStudent.Field()
     create_student = CreateStudent.Field()
+    create_company = CreateCompany.Field()
 
 class Query(ObjectType):
     get_all_students = graphene.List(StudentObject)
-
+    get_all_companies = graphene.List(CompanyObject)
         #Students
     def resolve_get_all_students(self):
         return studentsQuery.get_all_students()
