@@ -1,32 +1,15 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from models.models import *
+from graphene import ObjectType, Mutation
+from models.models import Students as StudentModel, db_session
 from queries import studentsQuery, companiesQuery
 import resolvers.documentsResolver as documentsResolver
 
 class StudentObject(SQLAlchemyObjectType):
     class Meta:
-        model = Students
+        model = StudentModel
 
 class CreateStudent(graphene.Mutation):
-    class Arguments:
-        first_name = graphene.String(required=True)
-        last_name = graphene.String(required=True)
-        address = graphene.String()
-        cp = graphene.String()
-        mail = graphene.String()
-        tel = graphene.String()
-        schoolId = graphene.Int()
-        cfaId = graphene.Int()
-        enterpriseId = graphene.Int()
-
-    student = graphene.Field(StudentObject)
-
-    def mutate(self, info, **kwargs):
-        student = studentsQuery.resolve_create_student(info, **kwargs)
-        return CreateStudent(student=student)
-    
-class UpdateStudent(graphene.Mutation):
     class Arguments:
         id = graphene.Int(required=True)
         first_name = graphene.String()
@@ -38,73 +21,55 @@ class UpdateStudent(graphene.Mutation):
         schoolId = graphene.Int()
         cfaId = graphene.Int()
         enterpriseId = graphene.Int()
-
-    student = graphene.Field(StudentObject)
-
-    def mutate(self, info, id, **kwargs):
-        student = studentsQuery.update_student(info, id, **kwargs)
-        if student:
-            return UpdateStudent(student=student)
-        else:
-            return None
-
-# Company
-class CompanyObject(SQLAlchemyObjectType):
-    class Meta:
-        model = Company
-
-class AddCompany(graphene.Mutation):
-    class Arguments:
-        name = graphene.String()
-        industry = graphene.String()
-        adress = graphene.String()
-        cp = graphene.String()
-        tel = graphene.String()
-        type = graphene.Int()
-    company = graphene.Field(CompanyObject)
+    student = graphene.Field(lambda: StudentObject)
 
     def mutate(self, info, **kwargs):
-        student = companiesQuery.create_company(info, **kwargs)
-        return AddCompany(student=student)
+        student = StudentModel(**kwargs)
+        db_session.add(student)
+        db_session.commit()
+        return CreateStudent(student=student)
     
-class UpdateCompany(graphene.Mutation):
+class UpdateStudent(Mutation):
     class Arguments:
-        name = graphene.String()
-        industry = graphene.String()
-        adress = graphene.String()
+        id = graphene.Int(required=True)
+        first_name = graphene.String()
+        last_name = graphene.String()
+        address = graphene.String()
         cp = graphene.String()
+        mail = graphene.String()
         tel = graphene.String()
-        type = graphene.Int()
+        schoolId = graphene.Int()
+        cfaId = graphene.Int()
+        enterpriseId = graphene.Int()
+    student = graphene.Field(lambda: StudentObject)
 
-    company = graphene.Field(CompanyObject)
-
-    def mutate(self, company, id, **kwargs):
-        student = studentsQuery.update_student(company, id, **kwargs)
+    def mutate(self, info, id, **kwargs):
+        student = db_session.query(StudentModel).get(id)
         if student:
-            return UpdateCompany(company=company)
-        else:
-            return None
+            for key, value in kwargs.items():
+                setattr(student, key, value)
+            db_session.commit()
+            return UpdateStudent(student=student)
+        return None
 
-class Mutation(graphene.ObjectType):
+class Mutation(ObjectType):
     update_student = UpdateStudent.Field()
     create_student = CreateStudent.Field()
-    #create_company, update_company, delete_company
-    # same for certifs, courses and docs
 
-class Query(graphene.ObjectType):
+class Query(ObjectType):
     get_all_students = graphene.List(StudentObject)
 
-    #Students
+        #Students
     def resolve_get_all_students(self):
         return studentsQuery.get_all_students()
-    
+
     def resolve_get_student_by_id(self, student_id):
         return studentsQuery.get_student_by_id(student_id)
 
     def resolve_students_by_company_id(self, info, companyId):
         students = studentsQuery.get_students_by_company(companyId)
         return students
-    
+
     #Campany
     def resolve_get_company_by_id(self, id):
         if id != None:
