@@ -1,9 +1,13 @@
+import os
 from sqlalchemy import Column, engine, ForeignKey, Integer, String, Float, create_engine
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from dotenv import load_dotenv
 
-DATABASE_URI = 'mysql://root:Diakitem1.@127.0.0.1:3306/Tutoria'
+load_dotenv()
+
+DATABASE_URI = os.getenv('CONNEXION_STRING')
 
 engine = create_engine(DATABASE_URI)
 Base = declarative_base()
