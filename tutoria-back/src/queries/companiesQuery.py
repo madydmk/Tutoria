@@ -10,7 +10,7 @@ def get_companies():
     return Company.query.all()
 
 def create_company(infos):
-    new_company = Company(infos.id, infos.name, infos.adress, infos.cp, infos.tel, infos.type)
+    new_company = Company(infos.id, infos.name, infos.address, infos.cp, infos.tel, infos.type)
     db.session.add(new_company)
     db.session.commit()
     return new_company
@@ -19,7 +19,7 @@ def create_company(infos):
 def update_company(infos):
     company = get_company_by_id(infos.id)
     company.name = infos.name
-    company.adress = infos.adress
+    company.address = infos.address
     company.cp = infos.cp
     company.tel = infos.tel
     
@@ -33,7 +33,7 @@ def stringify_company(company):
     company_string = {
         "id" : company.id,
         "name" : company.name,
-        "adress" : company.adress,
+        "address" : company.address,
         "cp" : company.cp,
         "tel": company.tel
     }

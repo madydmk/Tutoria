@@ -10,9 +10,9 @@ class Students(SQLAlchemyObjectType):
 
 class CreateStudent(graphene.Mutation):
     class Arguments:
-        id = graphene.Int(required=True)
-        first_name = graphene.String()
-        last_name = graphene.String()
+        id = graphene.Int()
+        firstName = graphene.String()
+        lasName = graphene.String()
         address = graphene.String()
         cp = graphene.String()
         mail = graphene.String()
@@ -30,9 +30,9 @@ class CreateStudent(graphene.Mutation):
     
 class UpdateStudent(Mutation):
     class Arguments:
-        id = graphene.Int(required=True)
-        first_name = graphene.String()
-        last_name = graphene.String()
+        id = graphene.Int()
+        firstName = graphene.String()
+        lastName = graphene.String()
         address = graphene.String()
         cp = graphene.String()
         mail = graphene.String()

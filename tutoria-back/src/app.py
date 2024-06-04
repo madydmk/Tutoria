@@ -1,8 +1,10 @@
+import sys
+sys.dont_write_bytecode = True
 from flask import Flask, jsonify, request
 import os
 from flask_cors import CORS
 from flask_graphql import GraphQLView
-from resolvers.schema import schema 
+from resolvers import schema 
 from queries import studentsQuery, companiesQuery
 
 app = Flask(__name__)
@@ -13,7 +15,7 @@ app.add_url_rule(
     '/graphql',
     view_func=GraphQLView.as_view(
         'graphql',
-        schema=schema,
+        schema=schema.schema,
         graphiql=True  # Permet d'utiliser l'interface GraphiQL
     )
 )
@@ -21,6 +23,29 @@ app.add_url_rule(
 @app.route('/')
 def index():
     return 'Hello, World!'
+# Connexion
+@app.route('/signIn', methods=["POST"])
+def connect():
+    user_name = request.form['name']
+    pwd = request.form['password']
+    if pwd != '' and pwd:
+        pwd = (pwd.strip != '', pwd, '')
+    
+    #auth
+    data = {"message": "Données provenant du backend Flask"}
+    return jsonify(data)
+
+# Inscription
+@app.route('/signUp')
+def newAccount():
+    data = {"message": "Données provenant du backend Flask"}
+    return jsonify(data)
+
+# Deconnexion
+@app.route('/signOut')
+def signeOut():
+    data = {"message": "Données provenant du backend Flask"}
+    return jsonify(data)
 
 @app.route("/student/<id>", methods=["GET"])
 def student(id):
@@ -35,6 +60,12 @@ def students():
     for student in students:
         student_list.append(studentsQuery.stringify_student(student))
     return jsonify(student_list)
+
+@app.route("/companies", methods=["GET"])
+def companies():
+    companies = schema.Query.resolve_get_all_companies(schema.Query)
+    companies_list = [companiesQuery.stringify_company(company) for company in companies]
+    return jsonify(companies_list)
 
 @app.route("/company/<id>", methods=["GET"])
 def get_company_by_id(id):
@@ -56,7 +87,7 @@ def get_company_students(id):
 @app.route("/new_company", methods=["POST"])
 def add_company():
     new_company = request.form['new_company']
-    schema.AddCompany(new_company)
+    schema.CreateCompany(new_company)
 
 @app.route("/new_student", methods=["POST"])
 def add_student():
