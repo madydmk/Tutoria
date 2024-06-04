@@ -7,7 +7,7 @@ def get_student_by_id(student_id):
     return student
 
 def resolve_create_student(info):
-    new_student = Students(first_name = info.first_name, last_name = info.last_name, adress = info.adr, cp = info.cp, mail = info.mail, tel = info.tel, schoolId = info.schoolId, cfaId = info.cfaId, enterpriseId = info.enterpriseId)
+    new_student = Students(first_name = info.first_name, last_name = info.last_name, address = info.address, cp = info.cp, mail = info.mail, tel = info.tel, schoolId = info.schoolId, cfaId = info.cfaId, enterpriseId = info.enterpriseId)
     db.session.add(new_student)
     db.session.commit()
     return new_student
@@ -40,7 +40,7 @@ def stringify_student(student):
         'id': student.id,
         'first_name' : student.first_name,
         'last_name' : student.last_name,
-        'adress' : student.adress, 
+        'address' : student.address, 
         'cp' : student.cp,
         'mail' : student.mail,
         'tel' : student.tel,
