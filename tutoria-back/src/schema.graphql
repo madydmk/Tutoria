@@ -3,7 +3,7 @@ schema {
 }
 
 type Mutation {
-  updateStudent(id: ID, first_name: String, last_name: String): Students
+  updateStudent(id: ID, firstName: String, lastName: String): Students
   createStudent(student : Students): Students
   createCompany(company : Company): Company
 }
@@ -24,12 +24,13 @@ type Company {
   cp: String
   tel: String
   type: String
+  password: String
 }
 
 type Students {
   id: Int
-  first_name: String
-  last_name: String
+  firstName: String
+  lastName: String
   address: String
   cp: String
   mail: String
@@ -37,6 +38,7 @@ type Students {
   schoolId: Int
   cfaId: Int
   enterpriseId: Int
+  password: String
 }
 
 type Course {

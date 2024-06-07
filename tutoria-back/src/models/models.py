@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URI = os.getenv('CONNEXION_STRING')
-
 engine = create_engine(DATABASE_URI)
 Base = declarative_base()
 db_session = scoped_session(sessionmaker(bind=engine))
@@ -23,16 +22,16 @@ class Company(Base):
     address = Column(String(100), nullable=True)
     cp = Column(String(5), nullable=True)
     tel = Column(String(10), nullable=True)
-    type = Column(Integer, nullable=False) #1: Ecole, 2: CFA, 3: Entreprise
-   # pwd = Column(String(20), nullable=False)
+    type = Column(Integer, nullable=False) #0: Ecole, 1: CFA, 2: Entreprise
+    password = Column(String(20), nullable=True)
     # Students = relationship('students', back_populates='company')
 
 #Relation Company - Student
 class Students(Base):
     __tablename__ = "students"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    first_name = Column(String(100), nullable=True)
-    last_name = Column(String(100), nullable=True)
+    firstName = Column(String(100), nullable=True)
+    lastName = Column(String(100), nullable=True)
     address = Column(String(100), nullable=True)
     cp = Column(String(5), nullable=True)
     mail = Column(String(100), nullable=True)
@@ -40,7 +39,7 @@ class Students(Base):
     schoolId = Column(Integer, ForeignKey('company.id'), nullable=True)
     cfaId = Column(Integer, ForeignKey('company.id'), nullable=True)
     enterpriseId = Column(Integer, ForeignKey('company.id'), nullable=True)
-    #pwd = Column(String(20), nullable=False)
+    password = Column(String(20), nullable=True)
     
 class Course(Base):
     __tablename__ = "course"

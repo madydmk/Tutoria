@@ -35,6 +35,7 @@ def stringify_company(company):
         "name" : company.name,
         "address" : company.address,
         "cp" : company.cp,
-        "tel": company.tel
+        "tel": company.tel,
+        "type": company.type
     }
     return company_string

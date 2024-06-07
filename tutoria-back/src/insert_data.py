@@ -12,3 +12,16 @@ db.session.add(stud1)
 db.session.commit()
 db.session.add(doc)
 db.session.commit()
+
+# {
+#     "firstName": "test1",
+#     "lastName": "New",
+#     "address": "dqzdqdz",
+#     "cp": "12345",
+#     "mail": "john.doe@example.com",
+#     "tel": "555-1234",
+#     "schoolId": 1,
+#     "cfaId": 1,
+#     "enterpriseId": 1,
+#     "password": "null"
+#   }
